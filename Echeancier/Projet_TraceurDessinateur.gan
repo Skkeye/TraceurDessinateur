@@ -1,14 +1,14 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="TraceurDessinateur" company="TSO" webLink="https://github.com/Skkeye/TraceurDessinateur" view-date="2023-02-15" view-index="0" gantt-divider-location="420" resource-divider-location="300" version="3.2.3247" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="TraceurDessinateur" company="TSO" webLink="https://github.com/Skkeye/TraceurDessinateur" view-date="2023-01-23" view-index="0" gantt-divider-location="360" resource-divider-location="300" version="3.2.3247" locale="en_US">
     <description>
         <![CDATA[Mon projet integrateur pour mon programme de Cegep : Technologie de Systemes Ordines]]>
     </description>
     <view zooming-state="default:2" id="gantt-chart">
-        <field id="tpd3" name="Name" width="324" order="0"/>
-        <field id="tpd4" name="Begin date" width="44" order="1"/>
-        <field id="tpd5" name="End date" width="36" order="2"/>
+        <field id="tpd3" name="Name" width="276" order="0"/>
+        <field id="tpd4" name="Begin date" width="36" order="1"/>
+        <field id="tpd5" name="End date" width="32" order="2"/>
         <option id="filter.completedTasks" value="false"/>
         <option id="color.recent">
-            <![CDATA[#999999]]>
+            <![CDATA[#ff6666 #999999]]>
         </option>
     </view>
     <view id="resource-table">
@@ -132,20 +132,20 @@
         <task id="1" name="Echeancier" color="#999999" meeting="false" start="2023-01-25" duration="28" complete="0" thirdDate="2023-01-23" thirdDate-constraint="0" expand="true"/>
         <task id="237" name="Feuille de Presentation" meeting="false" start="2023-01-23" duration="1" complete="0" expand="true"/>
         <task id="238" name="Tableau des objectifs" meeting="false" start="2023-01-24" duration="1" complete="0" expand="true"/>
-        <task id="54" name="Dessinateur" meeting="false" start="2023-01-31" duration="11" complete="0" expand="true">
-            <task id="44" name="Controle CNC" meeting="false" start="2023-01-31" duration="7" complete="0" expand="true">
-                <task id="67" name="Design Controle CNC" meeting="false" start="2023-01-31" duration="2" complete="0" expand="true">
+        <task id="54" name="Dessinateur" meeting="false" start="2023-01-31" duration="11" complete="22" expand="true">
+            <task id="44" name="Controle CNC" meeting="false" start="2023-01-31" duration="7" complete="37" expand="true">
+                <task id="67" name="Design Controle CNC" meeting="false" start="2023-01-31" duration="2" complete="75" expand="true">
                     <depend id="68" type="2" difference="0" hardness="Strong"/>
-                    <task id="62" name="Diagramme Shematique Controle CNC" color="#8cb6ce" meeting="false" start="2023-01-31" duration="1" complete="0" thirdDate="2023-01-23" thirdDate-constraint="0" expand="true">
+                    <task id="62" name="Diagramme Shematique Controle CNC" color="#8cb6ce" meeting="false" start="2023-01-31" duration="1" complete="100" thirdDate="2023-01-23" thirdDate-constraint="0" expand="true">
                         <depend id="64" type="2" difference="0" hardness="Strong"/>
                     </task>
-                    <task id="64" name="Diagramme Matriciel Controle CNC" color="#8cb6ce" meeting="false" start="2023-02-01" duration="1" complete="0" thirdDate="2023-01-23" thirdDate-constraint="0" expand="true"/>
-                    <task id="65" name="Diagramme UML Controle CNC" meeting="false" start="2023-01-31" duration="2" complete="0" expand="true"/>
+                    <task id="64" name="Diagramme Matriciel Controle CNC" color="#ff6666" meeting="false" start="2023-02-01" duration="1" complete="0" thirdDate="2023-01-23" thirdDate-constraint="0" expand="true"/>
+                    <task id="65" name="Diagramme UML Controle CNC" meeting="false" start="2023-01-31" duration="2" complete="100" expand="true"/>
                 </task>
-                <task id="68" name="Realisation Controle CNC" meeting="false" start="2023-02-02" duration="2" complete="0" expand="true">
+                <task id="68" name="Realisation Controle CNC" meeting="false" start="2023-02-02" duration="2" complete="20" expand="true">
                     <depend id="71" type="2" difference="0" hardness="Strong"/>
-                    <task id="69" name="Montage Prototype Controle CNC" meeting="false" start="2023-02-02" duration="1" complete="0" expand="false"/>
-                    <task id="70" name="Code Controle CNC" meeting="false" start="2023-02-03" duration="1" complete="0" expand="true"/>
+                    <task id="69" name="Montage Prototype Controle CNC" color="#ff6666" meeting="false" start="2023-02-03" duration="1" complete="0" thirdDate="2023-02-03" thirdDate-constraint="0" expand="false"/>
+                    <task id="70" name="Code Controle CNC" color="#ff6666" meeting="false" start="2023-02-02" duration="1" complete="40" thirdDate="2023-02-02" thirdDate-constraint="0" expand="true"/>
                 </task>
                 <task id="71" name="Test Controle CNC" meeting="false" start="2023-02-06" duration="1" complete="0" expand="false">
                     <depend id="73" type="2" difference="0" hardness="Strong"/>
@@ -158,14 +158,14 @@
                     <task id="76" name="Application de la solution Controle CNC" meeting="false" start="2023-02-08" duration="1" complete="0" expand="true"/>
                 </task>
             </task>
-            <task id="45" name="Panneau de controle" meeting="false" start="2023-02-01" duration="10" complete="0" expand="false">
-                <task id="77" name="Design Panneau de controle" color="#000000" meeting="false" start="2023-02-01" duration="3" complete="0" expand="false">
+            <task id="45" name="Panneau de controle" meeting="false" start="2023-02-01" duration="10" complete="22" expand="true">
+                <task id="77" name="Design Panneau de controle" color="#000000" meeting="false" start="2023-02-01" duration="3" complete="50" expand="true">
                     <depend id="81" type="2" difference="0" hardness="Strong"/>
-                    <task id="78" name="Diagramme Shematique Panneau de controle" color="#8cb6ce" meeting="false" start="2023-02-01" duration="1" complete="0" thirdDate="2023-01-23" thirdDate-constraint="0" expand="true">
+                    <task id="78" name="Diagramme Shematique Panneau de controle" color="#8cb6ce" meeting="false" start="2023-02-01" duration="1" complete="100" thirdDate="2023-01-23" thirdDate-constraint="0" expand="true">
                         <depend id="79" type="2" difference="0" hardness="Strong"/>
                     </task>
-                    <task id="79" name="Diagramme Matriciel Panneau de controle" color="#8cb6ce" meeting="false" start="2023-02-03" duration="1" complete="0" thirdDate="2023-02-03" thirdDate-constraint="1" expand="true"/>
-                    <task id="80" name="Diagramme UML Panneau de controle" color="#8cb6ce" meeting="false" start="2023-02-01" duration="1" complete="0" expand="true"/>
+                    <task id="79" name="Diagramme Matriciel Panneau de controle" color="#ff6666" meeting="false" start="2023-02-02" duration="2" complete="0" thirdDate="2023-02-03" thirdDate-constraint="0" expand="true"/>
+                    <task id="80" name="Diagramme UML Panneau de controle" color="#8cb6ce" meeting="false" start="2023-02-01" duration="1" complete="100" expand="true"/>
                 </task>
                 <task id="81" name="Realisation Panneau de controle" color="#000000" meeting="false" start="2023-02-09" duration="1" complete="0" expand="false">
                     <depend id="84" type="2" difference="0" hardness="Strong"/>
@@ -206,9 +206,9 @@
                 </task>
             </task>
         </task>
-        <task id="55" name="Camera" meeting="false" start="2023-02-06" duration="29" complete="0" expand="false">
-            <task id="46" name="Ecran Camera" meeting="false" start="2023-02-06" duration="12" complete="0" expand="false">
-                <task id="97" name="Design Ecran Camera" meeting="false" start="2023-02-06" duration="2" complete="0" expand="false">
+        <task id="55" name="Camera" meeting="false" start="2023-02-06" duration="16" complete="0" expand="false">
+            <task id="46" name="Ecran Camera" meeting="false" start="2023-02-06" duration="12" complete="0" expand="true">
+                <task id="97" name="Design Ecran Camera" meeting="false" start="2023-02-06" duration="2" complete="0" expand="true">
                     <depend id="98" type="2" difference="0" hardness="Strong"/>
                     <task id="101" name="Diagramme Shematique Ecran Camera" color="#8cb6ce" meeting="false" start="2023-02-06" duration="1" complete="0" thirdDate="2023-01-23" thirdDate-constraint="0" expand="true">
                         <depend id="102" type="2" difference="0" hardness="Strong"/>
@@ -304,111 +304,111 @@
                     <task id="213" name="Application de la solution Boitier Camera" meeting="false" start="2023-02-24" duration="1" complete="0" expand="true"/>
                 </task>
             </task>
-            <task id="56" name="Manette" meeting="false" start="2023-02-24" duration="15" complete="0" expand="false">
-                <task id="49" name="Bouton Manette" meeting="false" start="2023-02-24" duration="8" complete="0" expand="false">
-                    <task id="148" name="Design Bouton Manette" meeting="false" start="2023-02-24" duration="3" complete="0" expand="false">
-                        <depend id="154" type="2" difference="0" hardness="Strong"/>
-                        <task id="149" name="Diagramme Shematique Bouton Manette" color="#8cb6ce" meeting="false" start="2023-02-24" duration="1" complete="0" thirdDate="2023-01-23" thirdDate-constraint="0" expand="true">
-                            <depend id="150" type="2" difference="0" hardness="Strong"/>
-                        </task>
-                        <task id="150" name="Diagramme Matriciel Bouton Manette" meeting="false" start="2023-02-27" duration="1" complete="0" expand="true"/>
-                        <task id="151" name="Modelage 3D Bouton Manette" meeting="false" start="2023-02-28" duration="1" complete="0" expand="true"/>
-                        <task id="152" name="Diagramme UML Bouton Manette" meeting="false" start="2023-02-24" duration="1" complete="0" expand="true"/>
+        </task>
+        <task id="56" name="Manette" meeting="false" start="2023-02-24" duration="15" complete="0" expand="false">
+            <task id="49" name="Bouton Manette" meeting="false" start="2023-02-24" duration="8" complete="0" expand="false">
+                <task id="148" name="Design Bouton Manette" meeting="false" start="2023-02-24" duration="3" complete="0" expand="false">
+                    <depend id="154" type="2" difference="0" hardness="Strong"/>
+                    <task id="149" name="Diagramme Shematique Bouton Manette" color="#8cb6ce" meeting="false" start="2023-02-24" duration="1" complete="0" thirdDate="2023-01-23" thirdDate-constraint="0" expand="true">
+                        <depend id="150" type="2" difference="0" hardness="Strong"/>
                     </task>
-                    <task id="154" name="Realisation Bouton Manette" meeting="false" start="2023-03-01" duration="2" complete="0" expand="false">
-                        <depend id="162" type="2" difference="0" hardness="Strong"/>
-                        <task id="159" name="Impression Modele test Bouton Manette" meeting="false" start="2023-03-01" duration="1" complete="0" expand="true">
-                            <depend id="160" type="2" difference="0" hardness="Strong"/>
-                        </task>
-                        <task id="160" name="Montage Prototype Bouton Manette" meeting="false" start="2023-03-02" duration="1" complete="0" expand="true"/>
-                        <task id="161" name="Code Bouton Manette" meeting="false" start="2023-03-01" duration="1" complete="0" expand="true"/>
-                    </task>
-                    <task id="162" name="Test Bouton Manette" meeting="false" start="2023-03-03" duration="1" complete="0" expand="false">
-                        <depend id="164" type="2" difference="0" hardness="Strong"/>
-                        <task id="163" name="Devel Code Test Bouton Manette" meeting="false" start="2023-03-03" duration="1" complete="0" expand="true"/>
-                    </task>
-                    <task id="164" name="Depannage Bouton Manette" meeting="false" start="2023-03-06" duration="2" complete="0" expand="false">
-                        <task id="178" name="Recherche de solutions Bouton Manette" meeting="false" start="2023-03-06" duration="1" complete="0" expand="true">
-                            <depend id="179" type="2" difference="0" hardness="Strong"/>
-                        </task>
-                        <task id="179" name="Application de la solution Bouton Manette" meeting="false" start="2023-03-07" duration="1" complete="0" expand="true"/>
-                    </task>
+                    <task id="150" name="Diagramme Matriciel Bouton Manette" meeting="false" start="2023-02-27" duration="1" complete="0" expand="true"/>
+                    <task id="151" name="Modelage 3D Bouton Manette" meeting="false" start="2023-02-28" duration="1" complete="0" expand="true"/>
+                    <task id="152" name="Diagramme UML Bouton Manette" meeting="false" start="2023-02-24" duration="1" complete="0" expand="true"/>
                 </task>
-                <task id="50" name="Lumiere Manette" meeting="false" start="2023-02-28" duration="8" complete="0" expand="false">
-                    <task id="180" name="Design Lumiere Manette" meeting="false" start="2023-02-28" duration="3" complete="0" expand="false">
-                        <depend id="184" type="2" difference="0" hardness="Strong"/>
-                        <task id="181" name="Diagramme Shematique Lumiere Manette" color="#8cb6ce" meeting="false" start="2023-02-28" duration="1" complete="0" thirdDate="2023-01-23" thirdDate-constraint="0" expand="true">
-                            <depend id="182" type="2" difference="0" hardness="Strong"/>
-                        </task>
-                        <task id="182" name="Diagramme Matriciel Lumiere Manette" color="#8cb6ce" meeting="false" start="2023-03-01" duration="1" complete="0" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
-                        <task id="183" name="Diagramme UML Lumiere Manette" meeting="false" start="2023-03-02" duration="1" complete="0" expand="true"/>
+                <task id="154" name="Realisation Bouton Manette" meeting="false" start="2023-03-01" duration="2" complete="0" expand="false">
+                    <depend id="162" type="2" difference="0" hardness="Strong"/>
+                    <task id="159" name="Impression Modele test Bouton Manette" meeting="false" start="2023-03-01" duration="1" complete="0" expand="true">
+                        <depend id="160" type="2" difference="0" hardness="Strong"/>
                     </task>
-                    <task id="184" name="Realisation Lumiere Manette" meeting="false" start="2023-03-03" duration="2" complete="0" expand="false">
-                        <depend id="187" type="2" difference="0" hardness="Strong"/>
-                        <task id="185" name="Montage Prototype Lumiere Manette" meeting="false" start="2023-03-03" duration="1" complete="0" expand="true"/>
-                        <task id="186" name="Code Lumiere Manette" meeting="false" start="2023-03-06" duration="1" complete="0" expand="true"/>
-                    </task>
-                    <task id="187" name="Test Lumiere Manette" meeting="false" start="2023-03-07" duration="1" complete="0" expand="false">
-                        <depend id="189" type="2" difference="0" hardness="Strong"/>
-                        <task id="188" name="Devel Code Test Lumiere Manette" meeting="false" start="2023-03-07" duration="1" complete="0" expand="true"/>
-                    </task>
-                    <task id="189" name="Depannage Lumiere Manette" meeting="false" start="2023-03-08" duration="2" complete="0" expand="false">
-                        <task id="190" name="Recherche de solutions Lumiere Manette" meeting="false" start="2023-03-08" duration="1" complete="0" expand="true">
-                            <depend id="191" type="2" difference="0" hardness="Strong"/>
-                        </task>
-                        <task id="191" name="Application de la solution Lumiere Manette" meeting="false" start="2023-03-09" duration="1" complete="0" expand="true"/>
-                    </task>
+                    <task id="160" name="Montage Prototype Bouton Manette" meeting="false" start="2023-03-02" duration="1" complete="0" expand="true"/>
+                    <task id="161" name="Code Bouton Manette" meeting="false" start="2023-03-01" duration="1" complete="0" expand="true"/>
                 </task>
-                <task id="145" name="Alimentation Manette" meeting="false" start="2023-03-08" duration="7" complete="0" expand="false">
-                    <task id="192" name="Design Alimentation Manette" meeting="false" start="2023-03-08" duration="3" complete="0" expand="false">
-                        <depend id="196" type="2" difference="0" hardness="Strong"/>
-                        <task id="193" name="Diagramme Shematique Alimentation Manette" meeting="false" start="2023-03-08" duration="1" complete="0" expand="true">
-                            <depend id="194" type="2" difference="0" hardness="Strong"/>
-                        </task>
-                        <task id="194" name="Diagramme Matriciel Alimentation Manette" color="#8cb6ce" meeting="false" start="2023-03-10" duration="1" complete="0" thirdDate="2023-03-10" thirdDate-constraint="1" expand="true"/>
-                        <task id="195" name="Diagramme UML Alimentation Manette" meeting="false" start="2023-03-09" duration="1" complete="0" expand="true"/>
-                    </task>
-                    <task id="196" name="Realisation Alimentation Manette" meeting="false" start="2023-03-13" duration="1" complete="0" expand="false">
-                        <depend id="199" type="2" difference="0" hardness="Strong"/>
-                        <task id="197" name="Montage Prototype Alimentation Manette" meeting="false" start="2023-03-13" duration="1" complete="0" expand="true"/>
-                        <task id="198" name="Code Alimentation Manette" meeting="false" start="2023-03-13" duration="1" complete="0" expand="true"/>
-                    </task>
-                    <task id="199" name="Test Alimentation Manette" meeting="false" start="2023-03-14" duration="1" complete="0" expand="false">
-                        <depend id="201" type="2" difference="0" hardness="Strong"/>
-                        <task id="200" name="Devel Code Test Alimentation Manette" meeting="false" start="2023-03-14" duration="1" complete="0" expand="true"/>
-                    </task>
-                    <task id="201" name="Depannage Alimentation Manette" meeting="false" start="2023-03-15" duration="2" complete="0" expand="false">
-                        <task id="202" name="Recherche de solutions Alimentation Manette" meeting="false" start="2023-03-15" duration="1" complete="0" expand="true">
-                            <depend id="203" type="2" difference="0" hardness="Strong"/>
-                        </task>
-                        <task id="203" name="Application de la solution Alimentation Manette" meeting="false" start="2023-03-16" duration="1" complete="0" expand="true"/>
-                    </task>
+                <task id="162" name="Test Bouton Manette" meeting="false" start="2023-03-03" duration="1" complete="0" expand="false">
+                    <depend id="164" type="2" difference="0" hardness="Strong"/>
+                    <task id="163" name="Devel Code Test Bouton Manette" meeting="false" start="2023-03-03" duration="1" complete="0" expand="true"/>
                 </task>
-                <task id="61" name="Boitier Manette" meeting="false" start="2023-03-08" duration="6" complete="0" expand="false">
-                    <task id="204" name="Design Boitier Manette" meeting="false" start="2023-03-08" duration="1" complete="0" expand="false">
-                        <depend id="206" type="2" difference="0" hardness="Strong"/>
-                        <task id="205" name="Modellage 3D Boitier Manette" meeting="false" start="2023-03-08" duration="1" complete="0" expand="true"/>
+                <task id="164" name="Depannage Bouton Manette" meeting="false" start="2023-03-06" duration="2" complete="0" expand="false">
+                    <task id="178" name="Recherche de solutions Bouton Manette" meeting="false" start="2023-03-06" duration="1" complete="0" expand="true">
+                        <depend id="179" type="2" difference="0" hardness="Strong"/>
                     </task>
-                    <task id="206" name="Realisation Boitier Manette" meeting="false" start="2023-03-09" duration="2" complete="0" expand="false">
-                        <depend id="209" type="2" difference="0" hardness="Strong"/>
-                        <task id="207" name="Impression Boitier Manette" meeting="false" start="2023-03-09" duration="1" complete="0" expand="true">
-                            <depend id="208" type="2" difference="0" hardness="Strong"/>
-                        </task>
-                        <task id="208" name="Assemblage Boitier Manette" meeting="false" start="2023-03-10" duration="1" complete="0" expand="true"/>
+                    <task id="179" name="Application de la solution Bouton Manette" meeting="false" start="2023-03-07" duration="1" complete="0" expand="true"/>
+                </task>
+            </task>
+            <task id="50" name="Lumiere Manette" meeting="false" start="2023-02-28" duration="8" complete="0" expand="false">
+                <task id="180" name="Design Lumiere Manette" meeting="false" start="2023-02-28" duration="3" complete="0" expand="false">
+                    <depend id="184" type="2" difference="0" hardness="Strong"/>
+                    <task id="181" name="Diagramme Shematique Lumiere Manette" color="#8cb6ce" meeting="false" start="2023-02-28" duration="1" complete="0" thirdDate="2023-01-23" thirdDate-constraint="0" expand="true">
+                        <depend id="182" type="2" difference="0" hardness="Strong"/>
                     </task>
-                    <task id="209" name="Test Boitier Manette???" meeting="false" start="2023-03-13" duration="1" complete="0" expand="true">
-                        <depend id="210" type="2" difference="0" hardness="Strong"/>
+                    <task id="182" name="Diagramme Matriciel Lumiere Manette" color="#8cb6ce" meeting="false" start="2023-03-01" duration="1" complete="0" thirdDate="2023-03-02" thirdDate-constraint="0" expand="true"/>
+                    <task id="183" name="Diagramme UML Lumiere Manette" meeting="false" start="2023-03-02" duration="1" complete="0" expand="true"/>
+                </task>
+                <task id="184" name="Realisation Lumiere Manette" meeting="false" start="2023-03-03" duration="2" complete="0" expand="false">
+                    <depend id="187" type="2" difference="0" hardness="Strong"/>
+                    <task id="185" name="Montage Prototype Lumiere Manette" meeting="false" start="2023-03-03" duration="1" complete="0" expand="true"/>
+                    <task id="186" name="Code Lumiere Manette" meeting="false" start="2023-03-06" duration="1" complete="0" expand="true"/>
+                </task>
+                <task id="187" name="Test Lumiere Manette" meeting="false" start="2023-03-07" duration="1" complete="0" expand="false">
+                    <depend id="189" type="2" difference="0" hardness="Strong"/>
+                    <task id="188" name="Devel Code Test Lumiere Manette" meeting="false" start="2023-03-07" duration="1" complete="0" expand="true"/>
+                </task>
+                <task id="189" name="Depannage Lumiere Manette" meeting="false" start="2023-03-08" duration="2" complete="0" expand="false">
+                    <task id="190" name="Recherche de solutions Lumiere Manette" meeting="false" start="2023-03-08" duration="1" complete="0" expand="true">
+                        <depend id="191" type="2" difference="0" hardness="Strong"/>
                     </task>
-                    <task id="210" name="Depannage Boitier Manette" meeting="false" start="2023-03-14" duration="2" complete="0" expand="true">
-                        <task id="211" name="Recherche de solutions Boitier Manette" meeting="false" start="2023-03-14" duration="1" complete="0" expand="true">
-                            <depend id="212" type="2" difference="0" hardness="Strong"/>
-                        </task>
-                        <task id="212" name="Application de la solution Boitier Manette" meeting="false" start="2023-03-15" duration="1" complete="0" expand="true"/>
+                    <task id="191" name="Application de la solution Lumiere Manette" meeting="false" start="2023-03-09" duration="1" complete="0" expand="true"/>
+                </task>
+            </task>
+            <task id="145" name="Alimentation Manette" meeting="false" start="2023-03-08" duration="7" complete="0" expand="false">
+                <task id="192" name="Design Alimentation Manette" meeting="false" start="2023-03-08" duration="3" complete="0" expand="false">
+                    <depend id="196" type="2" difference="0" hardness="Strong"/>
+                    <task id="193" name="Diagramme Shematique Alimentation Manette" meeting="false" start="2023-03-08" duration="1" complete="0" expand="true">
+                        <depend id="194" type="2" difference="0" hardness="Strong"/>
                     </task>
+                    <task id="194" name="Diagramme Matriciel Alimentation Manette" color="#8cb6ce" meeting="false" start="2023-03-10" duration="1" complete="0" thirdDate="2023-03-10" thirdDate-constraint="1" expand="true"/>
+                    <task id="195" name="Diagramme UML Alimentation Manette" meeting="false" start="2023-03-09" duration="1" complete="0" expand="true"/>
+                </task>
+                <task id="196" name="Realisation Alimentation Manette" meeting="false" start="2023-03-13" duration="1" complete="0" expand="false">
+                    <depend id="199" type="2" difference="0" hardness="Strong"/>
+                    <task id="197" name="Montage Prototype Alimentation Manette" meeting="false" start="2023-03-13" duration="1" complete="0" expand="true"/>
+                    <task id="198" name="Code Alimentation Manette" meeting="false" start="2023-03-13" duration="1" complete="0" expand="true"/>
+                </task>
+                <task id="199" name="Test Alimentation Manette" meeting="false" start="2023-03-14" duration="1" complete="0" expand="false">
+                    <depend id="201" type="2" difference="0" hardness="Strong"/>
+                    <task id="200" name="Devel Code Test Alimentation Manette" meeting="false" start="2023-03-14" duration="1" complete="0" expand="true"/>
+                </task>
+                <task id="201" name="Depannage Alimentation Manette" meeting="false" start="2023-03-15" duration="2" complete="0" expand="false">
+                    <task id="202" name="Recherche de solutions Alimentation Manette" meeting="false" start="2023-03-15" duration="1" complete="0" expand="true">
+                        <depend id="203" type="2" difference="0" hardness="Strong"/>
+                    </task>
+                    <task id="203" name="Application de la solution Alimentation Manette" meeting="false" start="2023-03-16" duration="1" complete="0" expand="true"/>
+                </task>
+            </task>
+            <task id="61" name="Boitier Manette" meeting="false" start="2023-03-08" duration="6" complete="0" expand="false">
+                <task id="204" name="Design Boitier Manette" meeting="false" start="2023-03-08" duration="1" complete="0" expand="false">
+                    <depend id="206" type="2" difference="0" hardness="Strong"/>
+                    <task id="205" name="Modellage 3D Boitier Manette" meeting="false" start="2023-03-08" duration="1" complete="0" expand="true"/>
+                </task>
+                <task id="206" name="Realisation Boitier Manette" meeting="false" start="2023-03-09" duration="2" complete="0" expand="false">
+                    <depend id="209" type="2" difference="0" hardness="Strong"/>
+                    <task id="207" name="Impression Boitier Manette" meeting="false" start="2023-03-09" duration="1" complete="0" expand="true">
+                        <depend id="208" type="2" difference="0" hardness="Strong"/>
+                    </task>
+                    <task id="208" name="Assemblage Boitier Manette" meeting="false" start="2023-03-10" duration="1" complete="0" expand="true"/>
+                </task>
+                <task id="209" name="Test Boitier Manette???" meeting="false" start="2023-03-13" duration="1" complete="0" expand="true">
+                    <depend id="210" type="2" difference="0" hardness="Strong"/>
+                </task>
+                <task id="210" name="Depannage Boitier Manette" meeting="false" start="2023-03-14" duration="2" complete="0" expand="true">
+                    <task id="211" name="Recherche de solutions Boitier Manette" meeting="false" start="2023-03-14" duration="1" complete="0" expand="true">
+                        <depend id="212" type="2" difference="0" hardness="Strong"/>
+                    </task>
+                    <task id="212" name="Application de la solution Boitier Manette" meeting="false" start="2023-03-15" duration="1" complete="0" expand="true"/>
                 </task>
             </task>
         </task>
-        <task id="52" name="Connectivite" meeting="false" start="2023-03-10" duration="10" complete="0" expand="false">
+        <task id="52" name="Connectivite" meeting="false" start="2023-03-10" duration="10" complete="0" expand="true">
             <task id="147" name="Communication WiFi" meeting="false" start="2023-03-10" duration="7" complete="0" expand="false">
                 <task id="215" name="Design Communication WiFi" meeting="false" start="2023-03-10" duration="1" complete="0" expand="false">
                     <depend id="217" type="2" difference="0" hardness="Strong"/>
