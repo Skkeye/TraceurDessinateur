@@ -47,7 +47,7 @@ void sendNum(int num) {
 void home() {
   int iCount = 0;
   while (digitalRead(PIN_STOP_X) == 0) {
-    step(true);
+    step(false);
     iCount++;
     delay(2);
   }
@@ -65,7 +65,7 @@ void setup() {
 
   home();
   for (int i = 0; i < 12845; i++) {
-    step(false);
+    step(true);
     delay(2);
   }
   // delay(1000);
@@ -80,4 +80,4 @@ void loop() {
   // for (int i = 0; i < 1000; i++) {
   //   step(false);
   //   delay(2);
- 
+} 
