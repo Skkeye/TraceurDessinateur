@@ -14,8 +14,6 @@ typedef struct {
   SingleAxis_t z;
 } Axis_t;
 
-Axis_t xAxis;
-
 void initAxis(Axis_t axis, int stepsX, int stepsY, int stepsZ);
 
 bool doesStep(SingleAxis_t singleAxis, int thisStep);
