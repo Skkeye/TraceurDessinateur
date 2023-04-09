@@ -1,7 +1,6 @@
 
 #include "notes.h"
 
-
 void initAxis(Axis_t axis, int stepsX, int stepsY, int stepsZ) {
   int iMax = (stepsX >= stepsY) ? stepsX : stepsY;
   iMax = (iMax >= stepsZ) ? iMax : stepsZ;
@@ -20,7 +19,7 @@ void initAxis(Axis_t axis, int stepsX, int stepsY, int stepsZ) {
 }
 
 bool doesStep(SingleAxis_t singleAxis, int thisStep) {
-  thisStep++;  // 0 based
+  thisStep++; // 0 based
   int num = (int)ceilf(singleAxis.count * singleAxis.ratio);
   if (num == thisStep && singleAxis.count <= singleAxis.steps) {
     singleAxis.count++;
