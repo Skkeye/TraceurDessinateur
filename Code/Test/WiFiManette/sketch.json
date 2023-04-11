@@ -1,0 +1,7 @@
+{
+    "cpu": {
+        "fqbn":"esp32:esp32:esp32",
+        "name":"Esp32 Pico Kit",
+        "port":"/dev/ttyUSB0"
+    }
+}
