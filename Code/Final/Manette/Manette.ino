@@ -6,25 +6,24 @@
  */
 
 
-#include <MsgPacketizer.h>
+#include <ArduinoJson.h>
+#include <PubSubClient.h>
 #include <MPU6050_tockn.h>
 #include <WiFi.h>
 #include <Wire.h>
 
-// Definitions pour les packets WiFi
-#include "PacketDefinitions.h"
-
 // Configurations WiFi/Serveur/Capteurs
-#define SSID "Nugget"
-#define PASS "POGGERS7"
+#define SSID "Broker PIT"
 #define ADDR "192.168.144.1"
 #define PORT 1337
 #define PIN_BUTTON 37
 
-// Instantiation du Capteur/ClientWiFi/Packet
+// Instantiation du Capteur/ClientWiFi/JSON
 MPU6050 xManetteIMU(Wire);
-WiFiClient client;
-DataPacket xIMUDataPacket;
+WiFiClient wifi_client;
+PubSubClient client(wifi_client);
+DynamicJsonDocument doc(256);
+char message[256] = "";
 
 // Biais du IMU
 float fOffsetX;
@@ -40,9 +39,9 @@ void assertConnection()
     Serial.print('.');
     delay(500);
   }
-  if (client.connected())
-    return;
-  connectToServer();
+  while (!client.connected()) {
+    connectToServer();
+  };
 }
 
 /**
@@ -51,8 +50,10 @@ void assertConnection()
 void initWiFi()
 {
   Serial.println("Connexion au controlleur...");
+  client.setServer(ADDR, PORT);
+  client.setCallback(callback);
   WiFi.mode(WIFI_STA);
-  WiFi.begin(SSID, PASS);
+  WiFi.begin(SSID);
   while (WiFi.status() != WL_CONNECTED)
   {
     Serial.print('.');
@@ -68,11 +69,23 @@ void initWiFi()
 void connectToServer()
 {
   Serial.println("Connexion au serveur...");
-  while (client.connect(ADDR, PORT))
-  {
-    Serial.print('.');
-    delay(500);
+
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+
+    if (client.connect("arduinoClient")) {
+      Serial.println("connected");
+      client.subscribe("outTopic");
+    } else {
+
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" try again in 5 seconds");
+
+      delay(5000);
+    }
   }
+
   Serial.println("OK");
 }
 
@@ -124,23 +137,20 @@ void updateDataIMU()
   // Serial.println(sAngleX);
   // Serial.println(sAngleY);
   // Serial.println(sButtonValue);
-  xIMUDataPacket.sX = sAngleX;
-  xIMUDataPacket.sY = sAngleY;
-  xIMUDataPacket.sZ = sButtonValue;
+  doc["angle_x"] = sAngleX;
+  doc["angle_y"] = sAngleY;
+  doc["bouton"] = sButtonValue;
+  serializeJson(doc, message, 256);
+  client.publish("inTopic", message);
 }
 
-/**
- * @brief Initialise le Packeteur et la fonction de rappel "subscribe"
- *
- * @callback Si le packet demande un recalibrage, appeler "recalibrateIMU()"
- */
-void initPacketHandler()
+// TODO: Doxygen
+void callback(char *topic, uint8_t *payload, unsigned int lenght)
 {
-  MsgPacketizer::subscribe(client, INDEX_MOSI,
-    [&](const CommandPacket& packet) {
-      if(packet.bRecalibrate) recalibrateIMU();
-    });
-  MsgPacketizer::publish(client, INDEX_MISO, xIMUDataPacket); 
+  Serial.print("Topic: ");
+  Serial.println(topic);
+  Serial.println();
+  Serial.println((char*)payload);
 }
 
 /**
@@ -152,7 +162,6 @@ void setup()
   initWiFi();
   connectToServer();
   initIMU();
-  initPacketHandler();  
 }
 
 /**
@@ -165,6 +174,10 @@ void setup()
 void loop()
 {
   updateDataIMU();
-  assertConnection();
-  MsgPacketizer::update();
+  if (!client.connected())
+  {
+    connectToServer();
+  }
+  client.loop();
+  delay(17);
 }
