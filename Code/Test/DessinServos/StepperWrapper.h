@@ -5,9 +5,7 @@
  * Olivier David Laplante -- 8 Avril 2023 : Creation
  */
 
-#ifndef STEPPER_WRAPPER_H
-#define STEPPER_WRAPPER_H
-
+#pragma once
 /**
  * @class StepperWrapper
  * @brief Objet pour simplifier un moteur stepper
@@ -121,5 +119,3 @@ public:
   void disable();
   void enable();
 };
-
-#endif
