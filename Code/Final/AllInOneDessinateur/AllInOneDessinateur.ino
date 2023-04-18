@@ -1,5 +1,4 @@
-//#include <FreeRTOS.h>
-
+//#include <wiring_private.h>
 #include "StepperWrapper.h"
 #include <ArduinoJson.h>
 #include <WiFi.h>
@@ -19,26 +18,72 @@ StepperWrapper stepper_x(0, 1, 2, 12, 12845);
 StepperWrapper stepper_y(4, 5, 6, 13, 10752);
 StepperWrapper stepper_z(8, 9, 10, 14, 1325);
 ThreeAxisStepper steppers(&stepper_x, &stepper_y, &stepper_z);
+bool paused = false;
+
+// callback for admin messages (not in json)
+void adminMessage(char *topic, uint8_t *payload, unsigned int lenght)
+{
+  // possible commands: home, start, stop, pause, resume, restart
+  if (strcmp((char *)payload, "home") == 0)
+  {
+    paused = true;
+    steppers.home();
+    paused = false;
+  }
+  else if (strcmp((char *)payload, "start") == 0)
+  {
+    steppers.enable();
+  }
+  else if (strcmp((char *)payload, "stop") == 0)
+  {
+    steppers.disable();
+  }
+  else if (strcmp((char *)payload, "pause") == 0)
+  {
+    paused = true;
+  }
+  else if (strcmp((char *)payload, "resume") == 0)
+  {
+    paused = false;
+  }
+  else if (strcmp((char *)payload, "restart") == 0)
+  {
+    digitalWrite(LED_BUILTIN, HIGH);
+    delay(1000);
+    digitalWrite(LED_BUILTIN, LOW);
+    rp2040.reboot();
+  }
+}
+
+void vShortBlink()
+{
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(1);
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(1);
+}
 
 void callback(char *topic, uint8_t *payload, unsigned int lenght)
 {
+  vShortBlink();
+  // check if admin message
+  if (strcmp(topic, "admin") == 0)
+  {
+    adminMessage(topic, payload, lenght);
+    return;
+  }
+  if (paused)
+  {
+    return;
+  }
   deserializeJson(doc, payload);
 
-  int steps_x = (int)((short)doc["angle_x"] / 8) - 15;
-  int steps_y = (int)((short)doc["angle_y"] / 8) - 15;
-  int steps_z = (int)((short)doc["bouton"] / 8) - 15;
-  // Serial.println(steps_x);
-  // Serial.println(steps_y);
-  // Serial.println(steps_z);
+  int steps_x = (int)((short)doc["angle_x"] / 2) - 63;
+  int steps_y = (int)((short)doc["angle_y"] / 2) - 63;
+  int steps_z = (int)((short)doc["bouton"] / 2) - 63;
 
-  steppers.move(steps_x, steps_y, steps_z);
-
-  // Serial.print("Topic: ");
-  // Serial.println(topic);
-  // Serial.println();
-  // Serial.println((short)doc["angle_x"]);
-  // Serial.println((short)doc["angle_y"]);
-  // Serial.println((short)doc["bouton"]);
+  steppers.move(steps_y, steps_x, steps_z);
+  client.flush();
 }
 
 void reconnect()
@@ -51,9 +96,10 @@ void reconnect()
     {
       Serial.println("connected");
       // Once connected, publish an announcement...
-      client.publish("outTopic", "hello world");
+      //client.publish("outTopic", "hello world");
       // ... and resubscribe
       client.subscribe("inTopic");
+      client.subscribe("admin");
     }
     else
     {
@@ -69,7 +115,9 @@ void reconnect()
 void setup()
 {
   Serial.begin(115200);
-  
+  pinMode(LED_BUILTIN, OUTPUT);
+  client.setServer(server_ip, PORT);
+  client.setCallback(callback);
   WiFi.mode(WIFI_STA);
   WiFi.begin(NAME);
   while (WiFi.status() != WL_CONNECTED) {
@@ -77,8 +125,7 @@ void setup()
     delay(500);
   }
 
-  client.setServer(server_ip, PORT);
-  client.setCallback(callback);
+  
   
   steppers.enable();
   delay(1500);

@@ -13,6 +13,7 @@
 #include <Wire.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
+#include <esp_task_wdt.h>
 
 // Configurations WiFi/Serveur/Capteurs
 #define SSID "Broker PIT"
@@ -87,6 +88,7 @@ void connectToServer()
 
       delay(5000);
     }
+    
   }
 
   Serial.println("OK");
@@ -145,15 +147,26 @@ void updateDataIMU()
   doc["bouton"] = sButtonValue;
   serializeJson(doc, message, 256);
   client.publish("inTopic", message);
+  client.flush();
 }
 
-// TODO: Doxygen
+/**
+ * @brief Callback pour le recalibrage du IMU sur un message MQTT admin
+ */
 void callback(char *topic, uint8_t *payload, unsigned int lenght)
 {
-  Serial.print("Topic: ");
-  Serial.println(topic);
-  Serial.println();
-  Serial.println((char*)payload);
+  // "admin" -> "recalibrate" -> recalibrateIMU()
+  if (strcmp(topic, "admin") == 0)
+  {
+    if (strcmp((char *)payload, "gyrozero") == 0)
+    {
+      recalibrateIMU();
+      Serial.println("Recalibration du IMU");
+    } else if (strcmp((char *)payload, "restart") == 0) {
+      delay(1000);
+      esp_restart();
+    }
+  }
 }
 
 /**
@@ -166,8 +179,11 @@ void setup()
   connectToServer();
   initIMU();
 
-  xTaskCreatePinnedToCore(vDataTask, "vDataTask", 10000, NULL, 1, NULL, 0);
+  xTaskCreatePinnedToCore(vDataTask, "vDataTask", 10000, NULL, 2, NULL, 1);
   xTaskCreatePinnedToCore(vMQTTTask, "vMQTTTask", 10000, NULL, 1, NULL, 1);
+
+  esp_task_wdt_delete(NULL);
+  esp_task_wdt_deinit();  
 }
 
 /**
@@ -175,10 +191,12 @@ void setup()
  */
 void vDataTask(void *pvParameters)
 {
+  
   while (1)
   {
     updateDataIMU();
-    //vTaskDelay(30 / portTICK_PERIOD_MS);
+    vTaskDelay(pdMS_TO_TICKS(50));
+    
   }
 }
 
@@ -187,6 +205,7 @@ void vDataTask(void *pvParameters)
  */
 void vMQTTTask(void *pvParameters)
 {
+  
   while (1)
   {
     if (!client.connected())
@@ -194,8 +213,10 @@ void vMQTTTask(void *pvParameters)
       connectToServer();
     }
     client.loop();
-    //vTaskDelay(30 / portTICK_PERIOD_MS);
+    vTaskDelay(30);
   }
 }
 
-void loop() {}
+void loop() {
+  
+}

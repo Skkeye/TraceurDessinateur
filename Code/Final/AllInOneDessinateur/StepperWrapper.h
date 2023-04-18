@@ -17,6 +17,7 @@ private:
   int distance_from_origin;
   int max_distance_from_origin;
   bool positive_direction;
+  bool direction;
 
   /**
    * @brief Initialise les pins relative au moteur
@@ -39,8 +40,10 @@ public:
 
   /**
    * @brief Fait un pas
+   * 
+   * @param force Force le pas meme si on est a la limite
    */
-  void step();
+  void step(bool force);
 
   /**
    * @brief Change l'etat de la pin de direction

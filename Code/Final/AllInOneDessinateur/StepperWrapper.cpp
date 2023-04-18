@@ -21,17 +21,38 @@ StepperWrapper::StepperWrapper(int dir, int step, int en, int home,
   this->distance_from_origin = 0;
   this->max_distance_from_origin = max_distance;
   this->positive_direction = !flip_dir;
+  this->direction = false;
   this->initPins();
 }
 
-void StepperWrapper::step() {
+void StepperWrapper::step(bool force = false) {
+  // check if we are at the limit
+
+  if (this->distance_from_origin >= this->max_distance_from_origin && !force) {
+    if (this->direction <= this->positive_direction) {
+      delayMicroseconds(50);
+      return;
+    }
+  } else if (this->distance_from_origin == 0 && !force) {
+    if (this->direction != this->positive_direction) {
+      delayMicroseconds(50);
+      return;
+    }
+  }
+  // keep track of distance from origin
+  if (this->direction == this->positive_direction) {
+    this->distance_from_origin++;
+  } else if (this->distance_from_origin > 0) {
+    this->distance_from_origin--;
+  }
   digitalWrite(this->step_pin, HIGH);
-  delayMicroseconds(10);
+  delayMicroseconds(25);
   digitalWrite(this->step_pin, LOW);
-  delayMicroseconds(10);
+  delayMicroseconds(25);
 }
 
 void StepperWrapper::setDir(bool dir) {
+  this->direction = dir;
   digitalWrite(this->dir_pin, this->positive_direction == dir);
 }
 
@@ -73,28 +94,50 @@ void ThreeAxisStepper::move(int deltaX, int deltaY, int deltaZ) {
     if (doesStep(this_step, count_x, deltaX, largest_step_count)) {
       (*this->stepper_x).step();
       count_x++;
+    } else {
+      delayMicroseconds(50);
     }
     if (doesStep(this_step, count_y, deltaY, largest_step_count)) {
       (*this->stepper_y).step();
       count_y++;
+    } else {
+      delayMicroseconds(50);
     }
     if (doesStep(this_step, count_z, deltaZ, largest_step_count)) {
       (*this->stepper_z).step();
       count_z++;
+    } else {
+      delayMicroseconds(50);
     }
-    delay(1); // TODO: find minimum delay
   }
 }
 
 void ThreeAxisStepper::home() {
-  while (!(*this->stepper_x).isHome() && !(*this->stepper_y).isHome() &&
-         !(*this->stepper_z).isHome()) {
-    int home_step_x = (*this->stepper_x).isHome() - 1;
-    int home_step_y = (*this->stepper_y).isHome() - 1;
-    int home_step_z = (*this->stepper_z).isHome() - 1;
-    this->move(home_step_x, home_step_y, home_step_z);
-    delay(2);
+  // one at a time
+  while (!(*this->stepper_x).isHome()) {
+    (*this->stepper_x).setDir(false);
+    (*this->stepper_x).step(true);
+    delayMicroseconds(30);
   }
+  while (!(*this->stepper_y).isHome()) {
+    (*this->stepper_y).setDir(false);
+    (*this->stepper_y).step(true);
+    delayMicroseconds(30);
+  }
+  while (!(*this->stepper_z).isHome()) {
+    (*this->stepper_z).setDir(false);
+    (*this->stepper_z).step(true);
+    delayMicroseconds(30);
+  }
+
+  // while (!(*this->stepper_x).isHome() && !(*this->stepper_y).isHome() &&
+  //        !(*this->stepper_z).isHome()) {
+  //   int home_step_x = (*this->stepper_x).isHome() - 1;
+  //   int home_step_y = (*this->stepper_y).isHome() - 1;
+  //   int home_step_z = (*this->stepper_z).isHome() - 1;
+  //   this->move(home_step_x, home_step_y, home_step_z);
+  //   delayMicroseconds(30);
+  // }
 }
 
 void ThreeAxisStepper::disable() {
