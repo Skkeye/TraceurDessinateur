@@ -11,6 +11,8 @@
 #include <MPU6050_tockn.h>
 #include <WiFi.h>
 #include <Wire.h>
+#include <freertos/FreeRTOS.h>
+#include <freertos/task.h>
 
 // Configurations WiFi/Serveur/Capteurs
 #define SSID "Broker PIT"
@@ -76,6 +78,7 @@ void connectToServer()
     if (client.connect("arduinoClient")) {
       Serial.println("connected");
       client.subscribe("outTopic");
+      client.subscribe("admin");
     } else {
 
       Serial.print("failed, rc=");
@@ -154,7 +157,7 @@ void callback(char *topic, uint8_t *payload, unsigned int lenght)
 }
 
 /**
- * @brief Appelle les fonctions d'initialisation
+ * @brief Appelle les fonctions d'initialisation et demarre les taches
  */
 void setup()
 {
@@ -162,22 +165,37 @@ void setup()
   initWiFi();
   connectToServer();
   initIMU();
+
+  xTaskCreatePinnedToCore(vDataTask, "vDataTask", 10000, NULL, 1, NULL, 0);
+  xTaskCreatePinnedToCore(vMQTTTask, "vMQTTTask", 10000, NULL, 1, NULL, 1);
 }
 
 /**
- * @brief Cycle principal du programme
- *
- * 1. Mettre a jour les donnees
- * 2. Assurer la connexion WiFi et Serveur
- * 3. Mettre a jour le PacketHandler
+ * @brief Appelle les fonctions de mise a jour du IMU et du bouton
  */
-void loop()
+void vDataTask(void *pvParameters)
 {
-  updateDataIMU();
-  if (!client.connected())
+  while (1)
   {
-    connectToServer();
+    updateDataIMU();
+    //vTaskDelay(30 / portTICK_PERIOD_MS);
   }
-  client.loop();
-  delay(17);
 }
+
+/**
+ * @brief Appelle les fonctions de connexion au serveur
+ */
+void vMQTTTask(void *pvParameters)
+{
+  while (1)
+  {
+    if (!client.connected())
+    {
+      connectToServer();
+    }
+    client.loop();
+    //vTaskDelay(30 / portTICK_PERIOD_MS);
+  }
+}
+
+void loop() {}
