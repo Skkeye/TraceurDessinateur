@@ -1,6 +1,5 @@
 
-#include "StepperWrapper.h"
-#include <Arduino.h>
+#include "global.h"
 
 void StepperWrapper::initPins() {
   pinMode(this->dir_pin, OUTPUT);
@@ -30,12 +29,14 @@ void StepperWrapper::step(bool force = false) {
 
   if (this->distance_from_origin >= this->max_distance_from_origin && !force) {
     if (this->direction <= this->positive_direction) {
-      delayMicroseconds(50);
+      // delayMicroseconds(50); // to vTaskDelay
+      // 50 microsecondes = 1/20 000 000 secondes = 1/20 000 millisecondes
+      vTaskDelay(0.01 / portTICK_PERIOD_MS);
       return;
     }
   } else if (this->distance_from_origin == 0 && !force) {
     if (this->direction != this->positive_direction) {
-      delayMicroseconds(50);
+      vTaskDelay(0.01 / portTICK_PERIOD_MS);
       return;
     }
   }
@@ -46,9 +47,9 @@ void StepperWrapper::step(bool force = false) {
     this->distance_from_origin--;
   }
   digitalWrite(this->step_pin, HIGH);
-  delayMicroseconds(25);
+  vTaskDelay(0.005 / portTICK_PERIOD_MS);
   digitalWrite(this->step_pin, LOW);
-  delayMicroseconds(25);
+  vTaskDelay(0.005 / portTICK_PERIOD_MS);
 }
 
 void StepperWrapper::setDir(bool dir) {
@@ -81,7 +82,7 @@ void ThreeAxisStepper::move(int deltaX, int deltaY, int deltaZ) {
   (*this->stepper_x).setDir(deltaX >= 0);
   (*this->stepper_y).setDir(deltaY >= 0);
   (*this->stepper_z).setDir(deltaZ >= 0);
-  delayMicroseconds(10);
+  vTaskDelay(0.01 / portTICK_PERIOD_MS);
   deltaX *= (deltaX < 0) ? -1 : 1;
   deltaY *= (deltaY < 0) ? -1 : 1;
   deltaZ *= (deltaZ < 0) ? -1 : 1;
@@ -95,19 +96,19 @@ void ThreeAxisStepper::move(int deltaX, int deltaY, int deltaZ) {
       (*this->stepper_x).step();
       count_x++;
     } else {
-      delayMicroseconds(50);
+      vTaskDelay(0.01 / portTICK_PERIOD_MS);
     }
     if (doesStep(this_step, count_y, deltaY, largest_step_count)) {
       (*this->stepper_y).step();
       count_y++;
     } else {
-      delayMicroseconds(50);
+      vTaskDelay(0.01 / portTICK_PERIOD_MS);
     }
     if (doesStep(this_step, count_z, deltaZ, largest_step_count)) {
       (*this->stepper_z).step();
       count_z++;
     } else {
-      delayMicroseconds(50);
+      vTaskDelay(0.01 / portTICK_PERIOD_MS);
     }
   }
 }
@@ -117,17 +118,17 @@ void ThreeAxisStepper::home() {
   while (!(*this->stepper_x).isHome()) {
     (*this->stepper_x).setDir(false);
     (*this->stepper_x).step(true);
-    delayMicroseconds(30);
+    vTaskDelay(0.01 / portTICK_PERIOD_MS);
   }
   while (!(*this->stepper_y).isHome()) {
     (*this->stepper_y).setDir(false);
     (*this->stepper_y).step(true);
-    delayMicroseconds(30);
+    vTaskDelay(0.01 / portTICK_PERIOD_MS);
   }
   while (!(*this->stepper_z).isHome()) {
     (*this->stepper_z).setDir(false);
     (*this->stepper_z).step(true);
-    delayMicroseconds(30);
+    vTaskDelay(0.01 / portTICK_PERIOD_MS);
   }
 
   // while (!(*this->stepper_x).isHome() && !(*this->stepper_y).isHome() &&

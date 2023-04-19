@@ -1,141 +1,85 @@
-//#include <wiring_private.h>
-#include "StepperWrapper.h"
-#include <ArduinoJson.h>
+#include "global.h"
 #include <WiFi.h>
-#include <PubSubClient.h>
 
-#define NAME "Broker PIT"
+
+#define NAME "Dessinateur PIT"
+#define SSID "Manette PIT"
+#define ADMIN "Admin PIT"
 #define PORT 1337
-const IPAddress server_ip(192, 168, 144, 1);
+const IPAddress server_ip(192, 168, 144, 24);
 
-DynamicJsonDocument doc(256);
-char message[256] = "";
+TaskHandle_t xServoTask();
+TaskHandle_t xWiFiTask();
 
 WiFiClient wifi_client;
-PubSubClient client(wifi_client);
 
-StepperWrapper stepper_x(0, 1, 2, 12, 12845);
-StepperWrapper stepper_y(4, 5, 6, 13, 10752);
-StepperWrapper stepper_z(8, 9, 10, 14, 1325);
+StepperWrapper stepper_x(0, 1, 2, 12, 12845 * 4, true); // dir, step, enable, limit, max_steps, flip_dir
+StepperWrapper stepper_y(4, 5, 6, 13, 10752 * 4); // dir, step, enable, limit, max_steps
+StepperWrapper stepper_z(8, 9, 10, 14, 1325 * 4); // dir, step, enable, limit, max_steps
 ThreeAxisStepper steppers(&stepper_x, &stepper_y, &stepper_z);
+Data_t xData;
 bool paused = false;
-
-// callback for admin messages (not in json)
-void adminMessage(char *topic, uint8_t *payload, unsigned int lenght)
-{
-  // possible commands: home, start, stop, pause, resume, restart
-  if (strcmp((char *)payload, "home") == 0)
-  {
-    paused = true;
-    steppers.home();
-    paused = false;
-  }
-  else if (strcmp((char *)payload, "start") == 0)
-  {
-    steppers.enable();
-  }
-  else if (strcmp((char *)payload, "stop") == 0)
-  {
-    steppers.disable();
-  }
-  else if (strcmp((char *)payload, "pause") == 0)
-  {
-    paused = true;
-  }
-  else if (strcmp((char *)payload, "resume") == 0)
-  {
-    paused = false;
-  }
-  else if (strcmp((char *)payload, "restart") == 0)
-  {
-    digitalWrite(LED_BUILTIN, HIGH);
-    delay(1000);
-    digitalWrite(LED_BUILTIN, LOW);
-    rp2040.reboot();
-  }
-}
-
-void vShortBlink()
-{
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(1);
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(1);
-}
-
-void callback(char *topic, uint8_t *payload, unsigned int lenght)
-{
-  vShortBlink();
-  // check if admin message
-  if (strcmp(topic, "admin") == 0)
-  {
-    adminMessage(topic, payload, lenght);
-    return;
-  }
-  if (paused)
-  {
-    return;
-  }
-  deserializeJson(doc, payload);
-
-  int steps_x = (int)((short)doc["angle_x"] / 2) - 63;
-  int steps_y = (int)((short)doc["angle_y"] / 2) - 63;
-  int steps_z = (int)((short)doc["bouton"] / 2) - 63;
-
-  steppers.move(steps_y, steps_x, steps_z);
-  client.flush();
-}
-
-void reconnect()
-{
-  while (!client.connected())
-  {
-    Serial.print("Attempting MQTT connection...");
-    // Attempt to connect
-    if (client.connect("arduinoClient"))
-    {
-      Serial.println("connected");
-      // Once connected, publish an announcement...
-      //client.publish("outTopic", "hello world");
-      // ... and resubscribe
-      client.subscribe("inTopic");
-      client.subscribe("admin");
-    }
-    else
-    {
-      Serial.print("failed, rc=");
-      Serial.print(client.state());
-      Serial.println(" try again in 5 seconds");
-      // Wait 5 seconds before retrying
-      delay(5000);
-    }
-  }
-}
 
 void setup()
 {
   Serial.begin(115200);
-  pinMode(LED_BUILTIN, OUTPUT);
-  client.setServer(server_ip, PORT);
-  client.setCallback(callback);
   WiFi.mode(WIFI_STA);
-  WiFi.begin(NAME);
+  WiFi.begin(ADMIN);
   while (WiFi.status() != WL_CONNECTED) {
     Serial.print('.');
     delay(500);
   }
+  
+  // start the tasks
+  xTaskCreate(vStepperTask, "StepperTask", 10000, NULL, 1, NULL);
+  xTaskCreate(vWiFiServerTask, "WiFiServerTask", 10000, NULL, 2, NULL);
+}
 
-  
-  
+// create a task to handle the stepper
+void vStepperTask(void *pvParameters)
+{
   steppers.enable();
-  delay(1500);
+  while (1)
+  {
+    if (!paused)
+    {
+      int steps_x = (int)xData.u8AngleX - 127;
+      int steps_y = (int)xData.u8AngleY - 127;
+      int steps_z = (int)xData.u8ButtonValue - 127;
+      steppers.move(steps_x, steps_y, steps_z);
+    }
+    vTaskDelay(1);
+  }
+}
+
+// create a task to handle the wifi server
+void vWiFiServerTask(void *pvParameters)
+{
+  WiFiServer server(PORT);
+  server.begin();
+  while (1)
+  {
+    WiFiClient client = server.available();
+    if (!client)
+    {
+      vTaskDelay(1);
+      continue;
+    }
+    while (!client.available())
+    {
+      vTaskDelay(1);
+    }
+    String request = client.readStringUntil('\r');
+    parseData(request, xData, paused, &steppers);
+    String response = ">ack>>end>";
+    client.print(response);
+    client.flush();
+    client.stop();
+    vTaskDelay(1);
+  }
 }
 
 void loop()
 {
-	if (!client.connected())
-  {
-    reconnect();
-  }
-  client.loop();
+
 }

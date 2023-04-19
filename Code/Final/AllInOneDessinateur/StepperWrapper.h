@@ -14,8 +14,8 @@
 class StepperWrapper {
 private:
   int dir_pin, step_pin, en_pin, home_pin;
-  int distance_from_origin;
-  int max_distance_from_origin;
+  long distance_from_origin;
+  long max_distance_from_origin;
   bool positive_direction;
   bool direction;
 

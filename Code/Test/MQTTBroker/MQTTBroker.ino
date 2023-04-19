@@ -1,20 +1,19 @@
+#include <iostream>
+
 #include <WiFi.h>
-#include <TinyMqtt.h>
 #include <TinyConsole.h>
-#include <ArduinoJson.h>
 
 // configurations du broker
-#define SSID "Broker PIT"
+#define SSID "Admin PIT"
 #define PORT 1337
-#define RETAIN 10
 IPAddress server_ip(192, 168, 144, 11);
 IPAddress gateway(192, 168, 144, 1);
 IPAddress subnet(255, 255, 255, 0);
 
-// broker et client
-MqttBroker broker(PORT);
-MqttClient adminClient(&broker);
-// TinyConsole Console;
+
+WiFiServer server(PORT);
+WiFiClient admin_client;
+TinyConsole Console;
 
 // variables pour le mode admin
 bool bAdminLogging = false;
@@ -76,17 +75,17 @@ void consoleCallback(const std::string &command) {
     Console << "admin: entre dans le mode admin" << endl;
     Console << "exit: quitte le mode admin" << endl;
   } else if (command == "gyrozero") {  // recalibre la manette
-    adminClient.publish("admin", "gyrozero", RETAIN);
+    admin_client.println(">cmd>gyrozero>end>");
   } else if (command == "home") {  // recentre le dessinateur
-    adminClient.publish("admin", "home", RETAIN);
+    admin_client.println(">cmd>home>end>");
   } else if (command == "stop") {  // arrete le dessinateur
-    adminClient.publish("admin", "stop", RETAIN);
+    admin_client.println(">cmd>stop>end>");
   } else if (command == "start") {  // demarre le dessinateur
-    adminClient.publish("admin", "start", RETAIN);
+    admin_client.println(">cmd>start>end>");
   } else if (command == "pause") {  // met en pause le dessinateur
-    adminClient.publish("admin", "pause", RETAIN);
+    admin_client.println(">cmd>pause>end>");
   } else if (command == "resume") {  // reprend le dessinateur
-    adminClient.publish("admin", "resume", RETAIN);
+    admin_client.println(">cmd>resume>end>");
   } else if (command == "log") {  // affiche les messages du broker
     bAdminLogging = true;
   } else if (command == "nolog") {  // ne plus afficher les messages du broker
@@ -95,30 +94,16 @@ void consoleCallback(const std::string &command) {
     bAdminActive = false;
     Console << "Mode admin desactive" << endl;
   } else if (command == "restart") {  // redemarre le serveur
-    adminClient.publish("admin", "restart", RETAIN);
+    Console << "Redemarrage du serveur" << endl;
+    admin_client.println(">cmd>restart>end>");
     delay(1000);
     rp2040.reboot();
   } else if (command == "status") {  // affiche le status des connexions
     Console << "Status des connexions:" << endl;
-    Console << "  - Admin: " << (bAdminActive ? "active" : "desactive") << endl;
-    Console << "  - Logging: " << (bAdminLogging ? "active" : "desactive") << endl;
-    Console << "  - Clients: " << broker.clientsCount() << endl;
+    Console << "Admin: " << (bAdminActive ? "active" : "inactif") << endl;
+    Console << "Logging: " << (bAdminLogging ? "active" : "inactif") << endl;
   } else {  // commande inconnue
     Console << "Commande inconnue" << endl;
-  }
-}
-
-/**
- * @brief Callback appele lorsqu'un message est recu
- *
- * @param client le client qui a recu le message
- * @param topic le topic sur lequel le message a ete recu
- * @param payload le message recu
- * @param lenght la taille du message
- */
-void logCallback(const MqttClient *client, const Topic &topic, const char *payload, unsigned int lenght) {
-  if (bAdminLogging == true) {
-    Console << topic.str() << ": " << payload << endl;
   }
 }
 
@@ -127,14 +112,13 @@ void logCallback(const MqttClient *client, const Topic &topic, const char *paylo
  */
 void setup() {
   Serial.begin(115200);
-  pinMode(LED_BUILTIN, OUTPUT);
 
   Console.begin(Serial);
   Console.setCallback(consoleCallback);
   printBanner();
 
   Console << endl << endl << endl;
-  Console << "MQTT Broker PIT" << endl << endl;
+  Console << "Admin PIT" << endl << endl;
 
   WiFi.mode(WIFI_AP);
   WiFi.softAPConfig(server_ip, gateway, subnet);
@@ -146,24 +130,8 @@ void setup() {
   Console << "Gateway: " << gateway.toString() << endl;
   Console << "Subnet mask: " << subnet.toString() << endl << endl;
 
-  // init du broker
-  broker.begin();
-  Console << "Broker initialise" << endl << endl;
-
-  // init du Callback du client admin
-  adminClient.setCallback(logCallback);
-  adminClient.subscribe("inTopic");
-  adminClient.subscribe("outTopic");
-  adminClient.subscribe("admin");
 }
 
 void loop() {
-  broker.loop();
-  adminClient.loop();
   Console.loop();
-  // very short blink
-  digitalWrite(LED_BUILTIN, HIGH);
-  delay(1);
-  digitalWrite(LED_BUILTIN, LOW);
-  delay(1);
 }
