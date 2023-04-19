@@ -195,7 +195,7 @@ void vDataTask(void *pvParameters)
   while (1)
   {
     updateDataIMU();
-    vTaskDelay(pdMS_TO_TICKS(50));
+    vTaskDelay(pdMS_TO_TICKS(100));
     
   }
 }

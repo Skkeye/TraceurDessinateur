@@ -14,11 +14,15 @@ char message[256] = "";
 WiFiClient wifi_client;
 PubSubClient client(wifi_client);
 
-StepperWrapper stepper_x(0, 1, 2, 12, 12845);
-StepperWrapper stepper_y(4, 5, 6, 13, 10752);
-StepperWrapper stepper_z(8, 9, 10, 14, 1325);
+StepperWrapper stepper_x(0, 1, 2, 12, 12845 * 4);
+StepperWrapper stepper_y(4, 5, 6, 13, 10752 * 4);
+StepperWrapper stepper_z(8, 9, 10, 14, 1325 * 4, true);
 ThreeAxisStepper steppers(&stepper_x, &stepper_y, &stepper_z);
 bool paused = false;
+
+int deltaX = 0;
+int deltaY = 0;
+int deltaZ = 0;
 
 // callback for admin messages (not in json)
 void adminMessage(char *topic, uint8_t *payload, unsigned int lenght)
@@ -78,12 +82,18 @@ void callback(char *topic, uint8_t *payload, unsigned int lenght)
   }
   deserializeJson(doc, payload);
 
-  int steps_x = (int)((short)doc["angle_x"] / 2) - 63;
-  int steps_y = (int)((short)doc["angle_y"] / 2) - 63;
-  int steps_z = (int)((short)doc["bouton"] / 2) - 63;
+  deltaY = (int)((short)doc["angle_x"] / 2) - 63;
+  deltaX = (int)((short)doc["angle_y"] / 2) - 63;
+  deltaZ = (int)((short)doc["bouton"] / 2) - 63;
 
-  steppers.move(steps_y, steps_x, steps_z);
+  // steppers.move(steps_y, steps_x, steps_z);
   client.flush();
+}
+
+void runSteppers() {
+  unsigned long time = millis();
+  steppers.move(deltaX, deltaY, deltaZ);
+  delay((10 > (millis() - time)) ? (10 - (millis() - time)) : 0);
 }
 
 void reconnect()
@@ -120,16 +130,18 @@ void setup()
   client.setCallback(callback);
   WiFi.mode(WIFI_STA);
   WiFi.begin(NAME);
-  while (WiFi.status() != WL_CONNECTED) {
-    Serial.print('.');
-    delay(500);
-  }
+
+  steppers.enable();
 
   
+
+
+
+  steppers.home();
   
-  steppers.enable();
-  delay(1500);
 }
+
+
 
 void loop()
 {
@@ -138,4 +150,5 @@ void loop()
     reconnect();
   }
   client.loop();
+  runSteppers();
 }

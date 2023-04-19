@@ -28,23 +28,23 @@ StepperWrapper::StepperWrapper(int dir, int step, int en, int home,
 void StepperWrapper::step(bool force = false) {
   // check if we are at the limit
 
-  if (this->distance_from_origin >= this->max_distance_from_origin && !force) {
-    if (this->direction <= this->positive_direction) {
-      delayMicroseconds(50);
-      return;
-    }
-  } else if (this->distance_from_origin == 0 && !force) {
-    if (this->direction != this->positive_direction) {
-      delayMicroseconds(50);
-      return;
-    }
-  }
-  // keep track of distance from origin
-  if (this->direction == this->positive_direction) {
-    this->distance_from_origin++;
-  } else if (this->distance_from_origin > 0) {
-    this->distance_from_origin--;
-  }
+  // if (this->distance_from_origin >= this->max_distance_from_origin && !force) {
+  //   if (this->direction == this->positive_direction) {
+  //     delayMicroseconds(50);
+  //     return;
+  //   }
+  // } else if (this->distance_from_origin <= 0 && !force) {
+  //   if (this->direction != this->positive_direction) {
+  //     delayMicroseconds(50);
+  //     return;
+  //   }
+  // }
+  // // keep track of distance from origin
+  // if (this->direction) {
+  //   this->distance_from_origin++;
+  // } else {
+  //   this->distance_from_origin--;
+  // }
   digitalWrite(this->step_pin, HIGH);
   delayMicroseconds(25);
   digitalWrite(this->step_pin, LOW);
@@ -115,20 +115,25 @@ void ThreeAxisStepper::move(int deltaX, int deltaY, int deltaZ) {
 void ThreeAxisStepper::home() {
   // one at a time
   while (!(*this->stepper_x).isHome()) {
-    (*this->stepper_x).setDir(false);
+    (*this->stepper_x).setDir(true);
     (*this->stepper_x).step(true);
-    delayMicroseconds(30);
+    delayMicroseconds(90);
   }
   while (!(*this->stepper_y).isHome()) {
     (*this->stepper_y).setDir(false);
     (*this->stepper_y).step(true);
-    delayMicroseconds(30);
+    delayMicroseconds(90);
   }
   while (!(*this->stepper_z).isHome()) {
     (*this->stepper_z).setDir(false);
     (*this->stepper_z).step(true);
-    delayMicroseconds(30);
+    delayMicroseconds(90);
   }
+
+  (*this->stepper_x).distance_from_origin = 0;
+  (*this->stepper_y).distance_from_origin = 0;
+  (*this->stepper_z).distance_from_origin = 0;
+
 
   // while (!(*this->stepper_x).isHome() && !(*this->stepper_y).isHome() &&
   //        !(*this->stepper_z).isHome()) {

@@ -161,7 +161,7 @@ void loop() {
   broker.loop();
   adminClient.loop();
   Console.loop();
-  // very short blink
+//  very short blink
   digitalWrite(LED_BUILTIN, HIGH);
   delay(1);
   digitalWrite(LED_BUILTIN, LOW);
