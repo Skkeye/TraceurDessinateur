@@ -1,5 +1,5 @@
 /**
- * @file
+ * @file StepperWrapper.h
  * @brief Les definitions pour manipuler des moteurs steppers
  *
  * Olivier David Laplante -- 8 Avril 2023 : Creation

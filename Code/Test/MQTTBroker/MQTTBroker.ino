@@ -1,3 +1,5 @@
+
+
 #include <WiFi.h>
 #include <TinyMqtt.h>
 #include <TinyConsole.h>
@@ -74,6 +76,7 @@ void consoleCallback(const std::string &command) {
     Console << "resume: reprend le dessinateur" << endl;
     Console << "restart: redemarre le serveur" << endl;
     Console << "admin: entre dans le mode admin" << endl;
+    Console << "status: affiche le status des connexions" << endl;
     Console << "exit: quitte le mode admin" << endl;
   } else if (command == "gyrozero") {  // recalibre la manette
     adminClient.publish("admin", "gyrozero", RETAIN);

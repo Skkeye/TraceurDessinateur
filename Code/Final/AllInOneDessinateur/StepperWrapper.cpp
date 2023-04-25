@@ -1,3 +1,9 @@
+/**
+ * @file StepperWrapper.cpp
+ * @brief Le code pour manipuler des moteurs steppers
+ *
+ * Olivier David Laplante -- 8 Avril 2023 : Creation
+ */
 
 #include "StepperWrapper.h"
 #include <Arduino.h>
@@ -78,42 +84,51 @@ bool ThreeAxisStepper::doesStep(int this_step, int count, int steps, int largest
 }
 
 void ThreeAxisStepper::move(int deltaX, int deltaY, int deltaZ) {
+  // On met les directions des moteurs  
   (*this->stepper_x).setDir(deltaX >= 0);
   (*this->stepper_y).setDir(deltaY >= 0);
   (*this->stepper_z).setDir(deltaZ >= 0);
+  
+  // Attendre pour que les moteurs soient prêts
   delayMicroseconds(10);
+  
+  // Normaliser les pas
   deltaX *= (deltaX < 0) ? -1 : 1;
   deltaY *= (deltaY < 0) ? -1 : 1;
   deltaZ *= (deltaZ < 0) ? -1 : 1;
+
+  // Trouver le plus grand nombre de pas à faire
   int largest_step_count = (deltaX > deltaY) ? deltaX : deltaY;
-  largest_step_count =
-      (largest_step_count > deltaZ) ? largest_step_count : deltaZ;
+  largest_step_count = (largest_step_count > deltaZ) ? largest_step_count : deltaZ;
+  // Initialiser les compteurs de pas pour chaque moteur
   int count_x = 1, count_y = 1, count_z = 1;
+
+  // Faire les pas un à un
   for (int this_step = 1; this_step < largest_step_count + 1; this_step++) {
-    // (*this->stepper_x).step();
-    if (doesStep(this_step, count_x, deltaX, largest_step_count)) {
-      (*this->stepper_x).step();
-      count_x++;
-    } else {
+    if (doesStep(this_step, count_x, deltaX, largest_step_count)) { // Si on doit faire un pas pour ce moteur
+      (*this->stepper_x).step(); // Faire le pas
+      count_x++; // Incrémenter le compteur de pas pour ce moteur (pour savoir quand on doit faire un pas)
+    } else { // Sinon, attendre pour compenser les pas manqués
+      delayMicroseconds(50); 
+    }
+    if (doesStep(this_step, count_y, deltaY, largest_step_count)) { // Si on doit faire un pas pour ce moteur
+      (*this->stepper_y).step(); // Faire le pas
+      count_y++; // Incrémenter le compteur de pas pour ce moteur (pour savoir quand on doit faire un pas)
+    } else { // Sinon, attendre pour compenser les pas manqués
       delayMicroseconds(50);
     }
-    if (doesStep(this_step, count_y, deltaY, largest_step_count)) {
-      (*this->stepper_y).step();
-      count_y++;
-    } else {
-      delayMicroseconds(50);
-    }
-    if (doesStep(this_step, count_z, deltaZ, largest_step_count)) {
-      (*this->stepper_z).step();
-      count_z++;
-    } else {
+    if (doesStep(this_step, count_z, deltaZ, largest_step_count)) { // Si on doit faire un pas pour ce moteur
+      (*this->stepper_z).step(); // Faire le pas
+      count_z++; // Incrémenter le compteur de pas pour ce moteur (pour savoir quand on doit faire un pas)
+    } else { // Sinon, attendre pour compenser les pas manqués
       delayMicroseconds(50);
     }
   }
 }
 
 void ThreeAxisStepper::home() {
-  // one at a time
+  
+  // un moteur à la fois
   while (!(*this->stepper_x).isHome()) {
     (*this->stepper_x).setDir(true);
     (*this->stepper_x).step(true);
@@ -130,19 +145,10 @@ void ThreeAxisStepper::home() {
     delayMicroseconds(90);
   }
 
+  // remettre les distances à 0
   (*this->stepper_x).distance_from_origin = 0;
   (*this->stepper_y).distance_from_origin = 0;
   (*this->stepper_z).distance_from_origin = 0;
-
-
-  // while (!(*this->stepper_x).isHome() && !(*this->stepper_y).isHome() &&
-  //        !(*this->stepper_z).isHome()) {
-  //   int home_step_x = (*this->stepper_x).isHome() - 1;
-  //   int home_step_y = (*this->stepper_y).isHome() - 1;
-  //   int home_step_z = (*this->stepper_z).isHome() - 1;
-  //   this->move(home_step_x, home_step_y, home_step_z);
-  //   delayMicroseconds(30);
-  // }
 }
 
 void ThreeAxisStepper::disable() {

@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?><project name="TraceurDessinateur" company="TSO" webLink="https://github.com/Skkeye/TraceurDessinateur" view-date="2023-01-23" view-index="0" gantt-divider-location="360" resource-divider-location="300" version="3.2.3247" locale="en_US">
+<?xml version="1.0" encoding="UTF-8"?><project name="TraceurDessinateur" company="TSO" webLink="https://github.com/Skkeye/TraceurDessinateur" view-date="2023-03-20" view-index="0" gantt-divider-location="330" resource-divider-location="300" version="3.2.3247" locale="en_US">
     <description>
         <![CDATA[Mon projet integrateur pour mon programme de Cegep : Technologie de Systemes Ordines]]>
     </description>
     <view zooming-state="default:2" id="gantt-chart">
-        <field id="tpd3" name="Name" width="276" order="0"/>
-        <field id="tpd4" name="Begin date" width="36" order="1"/>
-        <field id="tpd5" name="End date" width="32" order="2"/>
+        <field id="tpd3" name="Name" width="264" order="0"/>
+        <field id="tpd4" name="Begin date" width="34" order="1"/>
+        <field id="tpd5" name="End date" width="31" order="2"/>
         <option id="filter.completedTasks" value="false"/>
         <option id="color.recent">
             <![CDATA[#ff6666 #999999]]>
@@ -132,7 +132,7 @@
         <task id="1" name="Echeancier" color="#999999" meeting="false" start="2023-01-25" duration="28" complete="0" thirdDate="2023-01-23" thirdDate-constraint="0" expand="true"/>
         <task id="237" name="Feuille de Presentation" meeting="false" start="2023-01-23" duration="1" complete="0" expand="true"/>
         <task id="238" name="Tableau des objectifs" meeting="false" start="2023-01-24" duration="1" complete="0" expand="true"/>
-        <task id="54" name="Dessinateur" meeting="false" start="2023-01-31" duration="11" complete="22" expand="true">
+        <task id="54" name="Dessinateur" meeting="false" start="2023-01-31" duration="11" complete="22" expand="false">
             <task id="44" name="Controle CNC" meeting="false" start="2023-01-31" duration="7" complete="37" expand="true">
                 <task id="67" name="Design Controle CNC" meeting="false" start="2023-01-31" duration="2" complete="75" expand="true">
                     <depend id="68" type="2" difference="0" hardness="Strong"/>
@@ -158,7 +158,7 @@
                     <task id="76" name="Application de la solution Controle CNC" meeting="false" start="2023-02-08" duration="1" complete="0" expand="true"/>
                 </task>
             </task>
-            <task id="45" name="Panneau de controle" meeting="false" start="2023-02-01" duration="10" complete="22" expand="true">
+            <task id="45" name="Panneau de controle" meeting="false" start="2023-02-01" duration="10" complete="22" expand="false">
                 <task id="77" name="Design Panneau de controle" color="#000000" meeting="false" start="2023-02-01" duration="3" complete="50" expand="true">
                     <depend id="81" type="2" difference="0" hardness="Strong"/>
                     <task id="78" name="Diagramme Shematique Panneau de controle" color="#8cb6ce" meeting="false" start="2023-02-01" duration="1" complete="100" thirdDate="2023-01-23" thirdDate-constraint="0" expand="true">
@@ -408,7 +408,7 @@
                 </task>
             </task>
         </task>
-        <task id="52" name="Connectivite" meeting="false" start="2023-03-10" duration="10" complete="0" expand="true">
+        <task id="52" name="Connectivite" meeting="false" start="2023-03-10" duration="10" complete="0" expand="false">
             <task id="147" name="Communication WiFi" meeting="false" start="2023-03-10" duration="7" complete="0" expand="false">
                 <task id="215" name="Design Communication WiFi" meeting="false" start="2023-03-10" duration="1" complete="0" expand="false">
                     <depend id="217" type="2" difference="0" hardness="Strong"/>
@@ -453,6 +453,21 @@
                     <task id="236" name="Application de la solution Application logicielle" meeting="false" start="2023-03-23" duration="1" complete="0" expand="false"/>
                 </task>
             </task>
+        </task>
+        <task id="239" name="V2" meeting="false" start="2023-01-23" duration="66" complete="0" expand="true"/>
+        <task id="240" name="Remise des documents" color="#8cb6ce" meeting="false" start="2023-03-20" duration="1" complete="0" thirdDate="2023-03-20" thirdDate-constraint="0" expand="true">
+            <notes>
+                <![CDATA[Rapport du projet
+UML
+Tableau des composants
+Tableau des alimentations
+Tableau des codes de reference
+Tableau des connecteurs
+Netlist
+Liste de pieces avec evaluation du cout
+Pseudo-code
+]]>
+            </notes>
         </task>
     </tasks>
     <resources>

@@ -1,0 +1,10 @@
+Partlist exported from C:/Users/Skkeye/Documents/EAGLE/projects/TraceurDessinateur/TraceurDessinateur_Manette.sch at 4/24/2023 06:27
+
+Qty Value    Device               Package              Parts  Description                     LABEL MF MPN OC_FARNELL OC_NEWARK POPULARITY
+1            ESP32-PICO-V4-SOCKET ESP32-PICO-V4-SOCKET U1     ESP32-PICO-V4-SOCKET                                                        
+2            MA03-1               MA03-1               J1, J2 PIN HEADER                                   unknown    unknown   48        
+1   150k     RR1206W              R1206W               R1     R                                                                           
+1   1N5817-B 1N5817-B             DO41-7.6             D1     1.0A SCHOTTKY BARRIER RECTIFIER                                   0         
+1   560k     RR1206W              R1206W               R2     R                                                                           
+1   B2B-PH-K B2B-PH-K             B2B-PH-K             J3     HEADER                                                                      
+1   WS2812B  WS2812B              WS2812B              LED1                                                                               

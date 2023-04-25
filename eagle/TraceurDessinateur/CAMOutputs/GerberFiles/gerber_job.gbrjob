@@ -1,0 +1,24 @@
+{
+    "Header": {
+        "Comment": "All values are metric (mm)",
+        "CreationDate": "2023-04-24T10:27:55Z",
+        "GenerationSoftware": {
+            "Application": "EAGLE",
+            "Vendor": "Autodesk",
+            "Version": "9.6.2"
+        },
+        "Part": "Single"
+    },
+    "Overall": {
+        "BoardThickness": 1.57,
+        "LayerNumber": 2,
+        "Name": {
+            "ProjectId": "TraceurDessinateur_Manette"
+        },
+        "Owner": "Olivier David Laplante <1935256@cegepoutaouais.qc.ca>",
+        "Size": {
+            "X": 27.737,
+            "Y": 67.818
+        }
+    }
+}
